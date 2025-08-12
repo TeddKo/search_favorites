@@ -1,0 +1,12 @@
+# melos_managed_dependency_overrides: core_designsystem,core_domain,shared_ui,shared_util,navigate
+dependency_overrides:
+  core_designsystem:
+    path: ../../core/designsystem
+  core_domain:
+    path: ../../core/domain
+  navigate:
+    path: ../../navigate
+  shared_ui:
+    path: ../../shared/ui
+  shared_util:
+    path: ../../shared/util

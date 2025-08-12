@@ -1,0 +1,17 @@
+name: shared_util
+description: Shared utility package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  freezed_annotation: ^3.1.0
+  logger: ^2.6.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  freezed: ^3.2.0
+  flutter_lints: ^5.0.0
+  build_runner: ^2.6.0

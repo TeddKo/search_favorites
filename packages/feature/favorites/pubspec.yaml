@@ -1,0 +1,30 @@
+name: feature_favorites
+description: Favorites feature package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.6.1
+  # core packages
+  core_designsystem:
+    path: ../../core/designsystem
+  core_domain:
+    path: ../../core/domain
+  # shared packages
+  shared_ui:
+    path: ../../shared/ui
+  shared_util:
+    path: ../../shared/util
+  navigate:
+    path: ../../navigate
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.6.0
