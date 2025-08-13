@@ -3,16 +3,30 @@ description: Core data package.
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+    sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   # Add dependencies here
   core_domain:
     path: ../domain
+  core_network:
+    path: ../network
+  core_database:
+    path: ../database
   shared_util:
     path: ../../shared/util
+  shared_common:
+    path: ../../shared/common
+  drift: ^2.28.1
+  dio: ^5.9.0
+  freezed_annotation: ^3.1.0
+  riverpod: ^3.0.0-dev.17
+  riverpod_annotation: ^3.0.0-dev.17
 
 dev_dependencies:
   test: ^1.26.3
   lint: ^2.8.0
+  freezed: ^3.2.0
+  drift_dev: ^2.28.1
+  riverpod_generator: ^3.0.0-dev.17
   build_runner: ^2.6.0

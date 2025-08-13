@@ -1,0 +1,10 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        generate_for:
+          - lib/src/db/favorite_database.dart
+      riverpod_generator:
+        generate_for:
+          - lib/core_database.dart
+          - lib/src/db/favorite_database.dart

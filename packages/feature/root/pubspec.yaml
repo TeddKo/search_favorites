@@ -1,0 +1,32 @@
+name: feature_root
+description: Root feature package.
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+  flutter: '>=3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_riverpod: ^3.0.0-dev.17
+  riverpod_annotation: ^3.0.0-dev.17
+  # core packages
+  core_designsystem:
+    path: ../../core/designsystem
+  core_domain:
+    path: ../../core/domain
+  # shared packages
+  shared_ui:
+    path: ../../shared/ui
+  shared_util:
+    path: ../../shared/util
+  navigate:
+    path: ../../navigate
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  riverpod_generator: ^3.0.0-dev.17
+  build_runner: ^2.6.0

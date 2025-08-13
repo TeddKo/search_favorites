@@ -1,8 +1,0 @@
-# melos_managed_dependency_overrides: core_data,core_domain,shared_util
-dependency_overrides:
-  core_data:
-    path: ../data
-  core_domain:
-    path: ../domain
-  shared_util:
-    path: ../../shared/util

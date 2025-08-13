@@ -3,12 +3,12 @@ description: Core domain package.
 publish_to: 'none'
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   # Add dependencies here
-  shared_util:
-    path: ../../shared/util
+  shared_common:
+    path: ../../shared/common
   freezed_annotation: ^3.1.0
 
 dev_dependencies:

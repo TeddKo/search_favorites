@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      riverpod_generator:
+        generate_for:
+          - lib/src/dio.dart
+          - lib/src/datasource/search_datasource.dart
+      freezed:
+        generate_for:
+          - lib/src/model/repository.dart
+      json_serializable:
+        generate_for:
+          - lib/src/model/repository.dart

@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: core_designsystem
-dependency_overrides:
-  core_designsystem:
-    path: ../../core/designsystem
