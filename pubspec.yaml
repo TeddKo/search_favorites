@@ -11,6 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  router:
+    path: packages/router
+  core_designsystem:
+    path: packages/core/designsystem
   flutter_dotenv: ^5.2.1
   flutter_riverpod: ^3.0.0-dev.17
   riverpod_annotation: ^3.0.0-dev.17

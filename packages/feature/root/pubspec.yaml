@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  go_router: ^16.1.0
   flutter_riverpod: ^3.0.0-dev.17
   riverpod_annotation: ^3.0.0-dev.17
   # core packages
@@ -21,8 +22,8 @@ dependencies:
     path: ../../shared/ui
   shared_util:
     path: ../../shared/util
-  navigate:
-    path: ../../navigate
+  router:
+    path: ../../router
 
 dev_dependencies:
   flutter_test:

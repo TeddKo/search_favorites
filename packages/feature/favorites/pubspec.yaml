@@ -21,8 +21,8 @@ dependencies:
     path: ../../shared/ui
   shared_util:
     path: ../../shared/util
-  navigate:
-    path: ../../navigate
+  router:
+    path: ../../router
 
 dev_dependencies:
   flutter_test:
