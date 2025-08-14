@@ -9,6 +9,7 @@ sealed class Repository with _$Repository {
     required String name,
     required String? description,
     required int stargazersCount,
-    required int forksCount
+    required int forksCount,
+    @Default(false) bool isFavorite,
   }) = _Repository;
 }
