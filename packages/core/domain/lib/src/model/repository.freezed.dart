@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Repository {
 
- int get id; String get name; String? get description; int get stargazersCount; int get forksCount;
+ int get id; String get name; String? get description; int get stargazersCount; int get forksCount; bool get isFavorite;
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $RepositoryCopyWith<Repository> get copyWith => _$RepositoryCopyWithImpl<Reposit
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,stargazersCount,forksCount);
+int get hashCode => Object.hash(runtimeType,id,name,description,stargazersCount,forksCount,isFavorite);
 
 @override
 String toString() {
-  return 'Repository(id: $id, name: $name, description: $description, stargazersCount: $stargazersCount, forksCount: $forksCount)';
+  return 'Repository(id: $id, name: $name, description: $description, stargazersCount: $stargazersCount, forksCount: $forksCount, isFavorite: $isFavorite)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $RepositoryCopyWith<$Res>  {
   factory $RepositoryCopyWith(Repository value, $Res Function(Repository) _then) = _$RepositoryCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, String? description, int stargazersCount, int forksCount
+ int id, String name, String? description, int stargazersCount, int forksCount, bool isFavorite
 });
 
 
@@ -62,14 +62,15 @@ class _$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? stargazersCount = null,Object? forksCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? stargazersCount = null,Object? forksCount = null,Object? isFavorite = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
 as int,forksCount: null == forksCount ? _self.forksCount : forksCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 
@@ -151,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount,  bool isFavorite)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount);case _:
+return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount,_that.isFavorite);case _:
   return orElse();
 
 }
@@ -172,10 +173,10 @@ return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount,  bool isFavorite)  $default,) {final _that = this;
 switch (_that) {
 case _Repository():
-return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount);}
+return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount,_that.isFavorite);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,10 +190,10 @@ return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_tha
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String? description,  int stargazersCount,  int forksCount,  bool isFavorite)?  $default,) {final _that = this;
 switch (_that) {
 case _Repository() when $default != null:
-return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount);case _:
+return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_that.forksCount,_that.isFavorite);case _:
   return null;
 
 }
@@ -204,7 +205,7 @@ return $default(_that.id,_that.name,_that.description,_that.stargazersCount,_tha
 
 
 class _Repository implements Repository {
-  const _Repository({required this.id, required this.name, required this.description, required this.stargazersCount, required this.forksCount});
+  const _Repository({required this.id, required this.name, required this.description, required this.stargazersCount, required this.forksCount, this.isFavorite = false});
   
 
 @override final  int id;
@@ -212,6 +213,7 @@ class _Repository implements Repository {
 @override final  String? description;
 @override final  int stargazersCount;
 @override final  int forksCount;
+@override@JsonKey() final  bool isFavorite;
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +225,16 @@ _$RepositoryCopyWith<_Repository> get copyWith => __$RepositoryCopyWithImpl<_Rep
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Repository&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.description, description) || other.description == description)&&(identical(other.stargazersCount, stargazersCount) || other.stargazersCount == stargazersCount)&&(identical(other.forksCount, forksCount) || other.forksCount == forksCount)&&(identical(other.isFavorite, isFavorite) || other.isFavorite == isFavorite));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,name,description,stargazersCount,forksCount);
+int get hashCode => Object.hash(runtimeType,id,name,description,stargazersCount,forksCount,isFavorite);
 
 @override
 String toString() {
-  return 'Repository(id: $id, name: $name, description: $description, stargazersCount: $stargazersCount, forksCount: $forksCount)';
+  return 'Repository(id: $id, name: $name, description: $description, stargazersCount: $stargazersCount, forksCount: $forksCount, isFavorite: $isFavorite)';
 }
 
 
@@ -243,7 +245,7 @@ abstract mixin class _$RepositoryCopyWith<$Res> implements $RepositoryCopyWith<$
   factory _$RepositoryCopyWith(_Repository value, $Res Function(_Repository) _then) = __$RepositoryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, String? description, int stargazersCount, int forksCount
+ int id, String name, String? description, int stargazersCount, int forksCount, bool isFavorite
 });
 
 
@@ -260,14 +262,15 @@ class __$RepositoryCopyWithImpl<$Res>
 
 /// Create a copy of Repository
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? stargazersCount = null,Object? forksCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? stargazersCount = null,Object? forksCount = null,Object? isFavorite = null,}) {
   return _then(_Repository(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,stargazersCount: null == stargazersCount ? _self.stargazersCount : stargazersCount // ignore: cast_nullable_to_non_nullable
 as int,forksCount: null == forksCount ? _self.forksCount : forksCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,isFavorite: null == isFavorite ? _self.isFavorite : isFavorite // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

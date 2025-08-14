@@ -10,10 +10,10 @@ class SearchDataSourceImpl implements SearchDataSource {
   SearchDataSourceImpl(this._dio);
 
   @override
-  Future<SearchResponse> searchRepositories(String query) async {
+  Future<SearchResponse> searchRepositories(String query, int page) async {
     final response = await _dio.get(
       '/search/repositories',
-      queryParameters: {'q': query},
+      queryParameters: {'q': query, 'page': page, 'per_page': 30},
     );
     final searchResponse = SearchResponse.fromJson(response.data);
     return searchResponse;
