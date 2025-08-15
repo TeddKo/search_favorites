@@ -22,7 +22,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _textController.addListener(_onSearchChanged);
     _scrollController.addListener(_onScroll);
   }
 
@@ -34,12 +33,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     super.dispose();
   }
 
-  void _onSearchChanged() {
+  void _onSearchChanged(String query) {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
     _debounce = Timer(const Duration(milliseconds: 300), () {
       ref
           .read(searchViewModelProvider.notifier)
-          .onIntent(SearchIntent.search(_textController.text));
+          .onIntent(SearchIntent.search(query));
     });
   }
 
@@ -66,6 +65,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             hintText: '저장소 검색...',
             border: InputBorder.none,
           ),
+          onChanged: _onSearchChanged,
         ),
       ),
       body: Center(

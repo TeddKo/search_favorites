@@ -1,4 +1,3 @@
-import 'package:core_data/src/repository/favorites_repository.dart';
 import 'package:core_database/core_database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

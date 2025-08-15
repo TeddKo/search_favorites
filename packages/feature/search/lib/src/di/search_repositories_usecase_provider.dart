@@ -1,9 +1,10 @@
 import 'package:core_data/core_data.dart';
 import 'package:core_domain/core_domain.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final searchRepositoriesUseCaseProvider = Provider<SearchRepositoriesUseCase>((
-  ref,
-) {
+part 'search_repositories_usecase_provider.g.dart';
+
+@riverpod
+SearchRepositoriesUseCase searchRepositoriesUseCase(Ref ref) {
   return SearchRepositoriesUseCaseImpl(ref.watch(searchRepositoryProvider));
-});
+}
