@@ -51,6 +51,8 @@ ios/.symlinks/
 ios/Flutter/App.framework
 ios/Flutter/Flutter.framework
 ios/Flutter/.last_build_id
+ios/Runner.xcworkspace
+ios/Runner.xcodeproj
 
 # macOS
 macos/Pods/
@@ -58,6 +60,7 @@ macos/Podfile.lock
 macos/.symlinks/
 macos/Flutter/ephemeral
 macos/Runner.xcworkspace
+macos/Runner.xcodeproj
 
 # Linux
 linux/build/
@@ -78,3 +81,5 @@ web/.dart_tool/
 # Obfuscation artifacts & symbol files
 *.map.json
 *.symbols
+/.env
+pubspec_overrides.yaml

@@ -5,7 +5,6 @@ import 'package:core_domain/core_domain.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_common/shared_common.dart';
 
-import 'di/favorites_stream_provider.dart';
 import 'di/search_repositories_usecase_provider.dart';
 import 'intent/search_intent.dart';
 import 'state/search_state.dart';
@@ -16,8 +15,8 @@ part 'search_view_model.g.dart';
 class SearchViewModel extends _$SearchViewModel {
   @override
   SearchState build() {
-    ref.listen(favoritesStreamProvider, (previous, next) {
-      final favoritesIds = (next.value ?? []).map((e) => e.id).toSet();
+    ref.listen(favoritesIdsStreamProvider, (previous, next) {
+      final favoritesIds = (next.value ?? []).map((repoIds) => repoIds).toSet();
 
       final updatedRepositories = state.repositories.map((repo) {
         return repo.copyWith(isFavorite: favoritesIds.contains(repo.id));
@@ -47,7 +46,9 @@ class SearchViewModel extends _$SearchViewModel {
     }
     state = state.copyWith(isLoading: true, query: query, page: 1, error: null);
 
-    final searchRepositoriesUseCase = ref.read(searchRepositoriesUseCaseProvider);
+    final searchRepositoriesUseCase = ref.read(
+      searchRepositoriesUseCaseProvider,
+    );
     final result = await searchRepositoriesUseCase(query, 1);
 
     result.when(
@@ -70,7 +71,9 @@ class SearchViewModel extends _$SearchViewModel {
     state = state.copyWith(isFetchingNextPage: true, error: null);
 
     final nextPage = state.page + 1;
-    final searchRepositoriesUseCase = ref.read(searchRepositoriesUseCaseProvider);
+    final searchRepositoriesUseCase = ref.read(
+      searchRepositoriesUseCaseProvider,
+    );
     final result = await searchRepositoriesUseCase(state.query, nextPage);
 
     result.when(

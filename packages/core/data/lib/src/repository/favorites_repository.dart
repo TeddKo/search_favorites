@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:core_data/src/datasource/favorite_datasource.dart';
 import 'package:core_data/src/mapper/repository_mapper.dart';
 import 'package:core_database/core_database.dart';
@@ -13,18 +15,33 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   FavoritesRepositoryImpl(this._dataSource);
 
   @override
-  Stream<Result<List<Repository>>> watchFavorites() {
+  Future<Result<List<Repository>>> getFavorites(int offset) async {
     try {
-      return _dataSource
-          .watchFavorites()
-          .map(
-            (dbList) => Result.success(
-              dbList.map((dbItem) => dbItem.toDomainModel()).toList(),
-            ),
-          )
-          .handleError((error) => Result.error(Exception(error)));
+      final dbList = await _dataSource.getFavorites(offset);
+      final domainList = dbList
+          .map((dbItem) => dbItem.toDomainModel())
+          .toList();
+      return Result.success(domainList);
     } catch (e) {
-      return Stream.value(Result.error(Exception(e)));
+      return Result.error(Exception(e.toString()));
+    }
+  }
+
+  @override
+  Stream<Result<List<int>>> watchFavoritesIds() {
+    try {
+      return _dataSource.watchFavoritesIds().transform(
+        StreamTransformer<List<int>, Result<List<int>>>.fromHandlers(
+          handleData: (repoIds, sink) {
+            sink.add(Result.success(repoIds));
+          },
+          handleError: (error, stackTrace, sink) {
+            sink.add(Result.error(Exception(error.toString())));
+          },
+        ),
+      );
+    } catch (e) {
+      return Stream.value(Result.error(Exception(e.toString())));
     }
   }
 
