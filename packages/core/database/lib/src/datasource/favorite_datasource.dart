@@ -8,4 +8,6 @@ abstract class FavoritesDataSource {
   Future<void> addFavorite(FavoriteRepositoriesCompanion repository);
 
   Future<void> removeFavorite(int id);
+
+  Future<FavoriteRepository?> getLatestFavoriteRepository();
 }

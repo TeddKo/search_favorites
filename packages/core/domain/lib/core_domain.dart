@@ -6,3 +6,4 @@ export 'src/usecase/add_favorite_usecase.dart';
 export 'src/usecase/remove_favorite_usecase.dart';
 export 'src/usecase/get_favorites_usecase.dart';
 export 'src/usecase/watch_favorites_ids_usecase.dart';
+export 'src/usecase/get_latest_favorite_repository_usecase.dart';

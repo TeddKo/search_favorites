@@ -21,6 +21,8 @@ class FavoriteRepositories extends Table {
   IntColumn get stargazersCount => integer()();
 
   IntColumn get forksCount => integer()();
+
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
 // 2. DAO (Data Access Object) 정의
@@ -45,11 +47,13 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
     favoriteRepositories,
   )..where((tbl) => tbl.repoId.equals(repoId))).go();
 
-  Stream<bool> watchIsFavorite(int repoId) {
+  Future<FavoriteRepository?> getLatestFavoriteRepository() {
     return (select(favoriteRepositories)
-          ..where((tbl) => tbl.repoId.equals(repoId)))
-        .watchSingleOrNull()
-        .map((repo) => repo != null);
+      ..orderBy([
+            (tbl) =>
+            OrderingTerm(expression: tbl.createdAt, mode: OrderingMode.desc)
+      ]))
+        .getSingleOrNull();
   }
 }
 
@@ -58,10 +62,24 @@ class FavoriteDatabase extends _$FavoriteDatabase {
   FavoriteDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          await m.addColumn(favoriteRepositories, favoriteRepositories.createdAt);
+        }
+      },
+    );
+  }
+
 }
 
-// 데이터베이스 연결 설정
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
