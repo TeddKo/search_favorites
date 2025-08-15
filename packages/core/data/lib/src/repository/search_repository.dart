@@ -14,9 +14,9 @@ class SearchRepositoryImpl implements SearchRepository {
   SearchRepositoryImpl(this._searchDataSource);
 
   @override
-  Future<Result<List<Repository>>> searchRepositories(String query) async {
+  Future<Result<List<Repository>>> searchRepositories(String query, int page) async {
     try {
-      final response = await _searchDataSource.searchRepositories(query);
+      final response = await _searchDataSource.searchRepositories(query, page);
       final repositories = response.items.map((e) => e.toData()).toList();
       return Result.success(repositories);
     } on Exception catch (e) {

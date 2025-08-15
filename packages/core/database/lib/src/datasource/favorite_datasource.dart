@@ -1,7 +1,9 @@
 import 'package:core_database/src/db/favorite_database.dart';
 
 abstract class FavoritesDataSource {
-  Stream<List<FavoriteRepository>> watchFavorites();
+  Future<List<FavoriteRepository>> getFavorites(int offset);
+
+  Stream<List<int>> watchFavoritesIds();
 
   Future<void> addFavorite(FavoriteRepositoriesCompanion repository);
 

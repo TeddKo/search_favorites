@@ -9,33 +9,33 @@ part 'router.g.dart';
 @riverpod
 GoRouter router(Ref ref) {
   return GoRouter(
-      initialLocation: '/search',
-      routes: [
-        StatefulShellRoute.indexedStack(
-          builder: (context, state, navigationShell) {
-            return RootScreen(navigationShell: navigationShell);
-          },
-          branches: [
-            StatefulShellBranch(
-                routes: [
-                  GoRoute(
-                      path: '/search',
-                      pageBuilder: (context, state) =>
-                      const NoTransitionPage(child: SearchScreen())
-                  )
-                ]
-            ),
-            StatefulShellBranch(
-                routes: [
-                  GoRoute(
-                      path: '/favorites',
-                      pageBuilder: (context, state) =>
-                      const NoTransitionPage(child: FavoritesScreen())
-                  )
-                ]
-            )
-          ],
-        )
-      ]
+    initialLocation: '/search',
+    routes: [
+      StatefulShellRoute.indexedStack(
+        builder: (context, state, navigationShell) {
+          return RootScreen(navigationShell: navigationShell);
+        },
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/search',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: SearchScreen()),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/favorites',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: FavoritesScreen()),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ],
   );
 }

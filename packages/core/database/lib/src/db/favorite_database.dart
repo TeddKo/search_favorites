@@ -29,8 +29,14 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
     with _$FavoriteRepositoryDaoMixin {
   FavoriteRepositoryDao(super.db);
 
-  Stream<List<FavoriteRepository>> watchFavoriteRepositories() =>
-      select(favoriteRepositories).watch();
+  Future<List<FavoriteRepository>> getFavoriteRepositories(int offset) =>
+      (select(favoriteRepositories)..limit(30, offset: offset)).get();
+
+  Stream<List<int>> watchFavoriteRepoIds() {
+    final query = selectOnly(favoriteRepositories)
+      ..addColumns([favoriteRepositories.repoId]);
+    return query.map((row) => row.read(favoriteRepositories.repoId)!).watch();
+  }
 
   Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) =>
       into(favoriteRepositories).insert(entry, mode: InsertMode.insertOrIgnore);

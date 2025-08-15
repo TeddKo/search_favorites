@@ -1,4 +1,3 @@
-import 'package:core_data/src/repository/favorites_repository.dart';
 import 'package:core_database/core_database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -10,8 +9,11 @@ class FavoritesDataSourceImpl implements FavoritesDataSource {
   FavoritesDataSourceImpl(this._dao);
 
   @override
-  Stream<List<FavoriteRepository>> watchFavorites() =>
-      _dao.watchFavoriteRepositories();
+  Future<List<FavoriteRepository>> getFavorites(int offset) =>
+      _dao.getFavoriteRepositories(offset);
+
+  @override
+  Stream<List<int>> watchFavoritesIds() => _dao.watchFavoriteRepoIds();
 
   @override
   Future<void> addFavorite(FavoriteRepositoriesCompanion repository) =>
