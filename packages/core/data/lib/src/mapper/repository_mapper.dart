@@ -18,7 +18,7 @@ extension ToData on NetworkRepository {
 extension ToDatabase on db.FavoriteRepository {
   Repository toDomainModel() {
     return Repository(
-      id: id,
+      id: repoId,
       name: name,
       description: description,
       stargazersCount: stargazersCount,
@@ -30,7 +30,7 @@ extension ToDatabase on db.FavoriteRepository {
 extension ToDatabaseCompanion on Repository {
   db.FavoriteRepositoriesCompanion toDbModel() {
     return db.FavoriteRepositoriesCompanion(
-      id: Value(id),
+      repoId: Value(id),
       name: Value(name),
       description: Value(description),
       stargazersCount: Value(stargazersCount),

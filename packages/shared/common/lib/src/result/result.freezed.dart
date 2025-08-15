@@ -55,13 +55,12 @@ extension ResultPatterns<T> on Result<T> {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Success<T> value)?  success,TResult Function( Error<T> value)?  error,TResult Function( Loading<T> value)?  loading,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( Success<T> value)?  success,TResult Function( Error<T> value)?  error,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that);case Error() when error != null:
-return error(_that);case Loading() when loading != null:
-return loading(_that);case _:
+return error(_that);case _:
   return orElse();
 
 }
@@ -79,13 +78,12 @@ return loading(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Success<T> value)  success,required TResult Function( Error<T> value)  error,required TResult Function( Loading<T> value)  loading,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( Success<T> value)  success,required TResult Function( Error<T> value)  error,}){
 final _that = this;
 switch (_that) {
 case Success():
 return success(_that);case Error():
-return error(_that);case Loading():
-return loading(_that);}
+return error(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
 ///
@@ -99,13 +97,12 @@ return loading(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Success<T> value)?  success,TResult? Function( Error<T> value)?  error,TResult? Function( Loading<T> value)?  loading,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( Success<T> value)?  success,TResult? Function( Error<T> value)?  error,}){
 final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that);case Error() when error != null:
-return error(_that);case Loading() when loading != null:
-return loading(_that);case _:
+return error(_that);case _:
   return null;
 
 }
@@ -122,12 +119,11 @@ return loading(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( Exception e)?  error,TResult Function()?  loading,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( T data)?  success,TResult Function( Exception e)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that.data);case Error() when error != null:
-return error(_that.e);case Loading() when loading != null:
-return loading();case _:
+return error(_that.e);case _:
   return orElse();
 
 }
@@ -145,12 +141,11 @@ return loading();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( Exception e)  error,required TResult Function()  loading,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( T data)  success,required TResult Function( Exception e)  error,}) {final _that = this;
 switch (_that) {
 case Success():
 return success(_that.data);case Error():
-return error(_that.e);case Loading():
-return loading();}
+return error(_that.e);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -164,12 +159,11 @@ return loading();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( Exception e)?  error,TResult? Function()?  loading,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( T data)?  success,TResult? Function( Exception e)?  error,}) {final _that = this;
 switch (_that) {
 case Success() when success != null:
 return success(_that.data);case Error() when error != null:
-return error(_that.e);case Loading() when loading != null:
-return loading();case _:
+return error(_that.e);case _:
   return null;
 
 }
@@ -308,37 +302,5 @@ as Exception,
 
 
 }
-
-/// @nodoc
-
-
-class Loading<T> implements Result<T> {
-  const Loading();
-  
-
-
-
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Loading<T>);
-}
-
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'Result<$T>.loading()';
-}
-
-
-}
-
-
-
 
 // dart format on
