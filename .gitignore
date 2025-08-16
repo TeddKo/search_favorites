@@ -28,6 +28,7 @@ migrate_working_dir/
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
+pubspec.lock
 # Commonly generated files
 *.g.dart
 *.freezed.dart
