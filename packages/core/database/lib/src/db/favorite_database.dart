@@ -40,20 +40,36 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
     return query.map((row) => row.read(favoriteRepositories.repoId)!).watch();
   }
 
-  Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) =>
-      into(favoriteRepositories).insert(entry, mode: InsertMode.insertOrIgnore);
+  Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) {
+    print("Adding/Updating favorite: ${entry.repoId.value}, name: ${entry.name.value}");
+    return into(favoriteRepositories).insert(entry,
+        onConflict: DoUpdate((old) {
+          print("Conflict detected for ${entry.repoId.value}. Updating createdAt.");
+          return entry.copyWith(createdAt: Value(DateTime.now()));
+        }));
+  }
 
   Future<void> removeFavoriteRepository(int repoId) => (delete(
     favoriteRepositories,
   )..where((tbl) => tbl.repoId.equals(repoId))).go();
 
-  Future<FavoriteRepository?> getLatestFavoriteRepository() {
-    return (select(favoriteRepositories)
+  Future<FavoriteRepository?> getLatestFavoriteRepository() async {
+    final query = select(favoriteRepositories)
       ..orderBy([
-            (tbl) =>
-            OrderingTerm(expression: tbl.createdAt, mode: OrderingMode.desc)
-      ]))
-        .getSingleOrNull();
+        (tbl) =>
+            OrderingTerm(expression: tbl.createdAt, mode: OrderingMode.desc),
+        (tbl) => OrderingTerm(expression: tbl.id, mode: OrderingMode.desc)
+      ])
+      ..limit(1);
+    final repo = await query.getSingleOrNull();
+    if (repo != null) {
+      print(
+          "getLatestFavoriteRepository returning: id=${repo.id}, repoId=${repo.repoId}, name=${repo.name}, createdAt=${repo.createdAt}");
+      return repo;
+    } else {
+      print("getLatestFavoriteRepository returning null.");
+      return null;
+    }
   }
 }
 

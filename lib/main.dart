@@ -1,7 +1,3 @@
-// lib/main.dart
-
-import 'dart:developer'; // log 사용을 위해 import
-
 import 'package:core_data/core_data.dart';
 import 'package:core_designsystem/core_designsystem.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +6,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:router/router.dart';
 import 'package:shared_common/shared_common.dart';
-
-@pragma('vm:entry-point')
-void mainForWidget() async {
-  await dotenv.load(fileName: ".env");
-  final container = ProviderContainer();
-  _initializeMethodChannel(container);
-}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

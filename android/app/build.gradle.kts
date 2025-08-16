@@ -36,8 +36,6 @@ android {
         viewBinding = true
     }
 
-    
-
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -56,4 +54,5 @@ dependencies {
     implementation("androidx.glance:glance-material3:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    implementation("androidx.work:work-runtime-ktx:2.10.3")
 }

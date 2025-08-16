@@ -4,6 +4,7 @@ import 'package:core_data/core_data.dart';
 import 'package:core_domain/core_domain.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_common/shared_common.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'di/search_repositories_usecase_provider.dart';
 import 'intent/search_intent.dart';
@@ -16,16 +17,18 @@ class SearchViewModel extends _$SearchViewModel {
   @override
   SearchState build() {
     ref.listen(favoritesIdsStreamProvider, (previous, next) {
-      final favoritesIds = (next.value ?? []).map((repoIds) => repoIds).toSet();
+      if (next.hasValue) {
+        final favoritesIds = (next.value ?? []).map((repoIds) => repoIds).toSet();
 
-      final updatedRepositories = state.repositories.map((repo) {
-        return repo.copyWith(isFavorite: favoritesIds.contains(repo.id));
-      }).toList();
+        final updatedRepositories = state.repositories.map((repo) {
+          return repo.copyWith(isFavorite: favoritesIds.contains(repo.id));
+        }).toList();
 
-      state = state.copyWith(
-        repositories: updatedRepositories,
-        favoriteIds: favoritesIds,
-      );
+        state = state.copyWith(
+          repositories: updatedRepositories,
+          favoriteIds: favoritesIds,
+        );
+      }
     }, fireImmediately: true);
 
     return const SearchState();
@@ -101,5 +104,29 @@ class SearchViewModel extends _$SearchViewModel {
     } else {
       await addFavoriteUseCase(repository);
     }
+    _updateWidget();
+    print("_updateWidget called in _toggleFavorite");
+  }
+
+  Future<void> _updateWidget() async {
+    final getLatestFavoriteUseCase = ref.read(getLatestFavoriteRepositoryUseCaseProvider);
+    final result = await getLatestFavoriteUseCase();
+    result.when(success: (repo) async {
+      if (repo != null) {
+        print("Saving to HomeWidget: name=${repo.name}, description=${repo.description}");
+        await HomeWidget.saveWidgetData<String>('name', repo.name);
+        await HomeWidget.saveWidgetData<String>('description', repo.description);
+      } else {
+        print("Saving to HomeWidget: No repository found");
+        await HomeWidget.saveWidgetData<String>('name', 'No repository found');
+        await HomeWidget.saveWidgetData<String>('description', '');
+      }
+      await HomeWidget.updateWidget(
+        name: 'LatestFavoriteWidgetReceiver',
+        androidName: 'LatestFavoriteWidgetReceiver',
+      );
+    }, error: (e) {
+      print("Error getting latest favorite for widget: $e");
+    });
   }
 }
