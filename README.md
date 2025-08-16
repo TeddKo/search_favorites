@@ -56,8 +56,8 @@ Github Repository를 검색하고 즐겨찾기로 저장하는 Flutter 애플리
 -   **Provider Pattern**: Riverpod를 사용하여 의존성 주입을 처리했습니다.
 
 ## AI 보조도구 사용 프롬프트
--   **Androdid 멀티모듈 아키텍처에 대응하는 Fluuter의 아키텍처가 뭔지 알려줘
--   **Kotlin의 data class와 sealed class에 대응하는 Flutter 라이브러리를 알려줘
--   **Android Room Database에 대응하는 Flutter 라이브러리를 알려줘
--   **상태관리 라이브러리가 어떤게 있는지 알려주고 가장 많이 사용되는 라이브러리는 무엇이며 사용법에대해 자세하게 설명해줘
--   **Android에서는 local.properties에 토큰정보라던지 민감한 데이터를 입력하는데 Flutter에서 그에 대응하는 방법이 뭔지 알려줘
+-   **Androdid 멀티모듈 아키텍처에 대응하는 Fluuter의 아키텍처가 뭔지 알려줘**
+-   **Kotlin의 data class와 sealed class에 대응하는 Flutter 라이브러리를 알려줘**
+-   **Android Room Database에 대응하는 Flutter 라이브러리를 알려줘**
+-   **상태관리 라이브러리가 어떤게 있는지 알려주고 가장 많이 사용되는 라이브러리는 무엇이며 사용법에대해 자세하게 설명해줘**
+-   **Android에서는 local.properties에 토큰정보라던지 민감한 데이터를 입력하는데 Flutter에서 그에 대응하는 방법이 뭔지 알려줘**
