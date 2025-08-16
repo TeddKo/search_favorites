@@ -1,5 +1,4 @@
 import android.content.Context
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
@@ -19,7 +18,6 @@ class LatestFavoriteWidget : GlanceAppWidget() {
             val prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE)
             val name = prefs.getString("name", "No repository found") ?: "No repository found"
             val description = prefs.getString("description", "") ?: ""
-            Log.d("GlanceWidget", "provideGlance: Reading from prefs - name=$name, description=$description")
 
             Column(
                 modifier = GlanceModifier

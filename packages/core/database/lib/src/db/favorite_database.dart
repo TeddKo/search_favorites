@@ -41,10 +41,8 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
   }
 
   Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) {
-    print("Adding/Updating favorite: ${entry.repoId.value}, name: ${entry.name.value}");
     return into(favoriteRepositories).insert(entry,
         onConflict: DoUpdate((old) {
-          print("Conflict detected for ${entry.repoId.value}. Updating createdAt.");
           return entry.copyWith(createdAt: Value(DateTime.now()));
         }));
   }
@@ -63,11 +61,8 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
       ..limit(1);
     final repo = await query.getSingleOrNull();
     if (repo != null) {
-      print(
-          "getLatestFavoriteRepository returning: id=${repo.id}, repoId=${repo.repoId}, name=${repo.name}, createdAt=${repo.createdAt}");
       return repo;
     } else {
-      print("getLatestFavoriteRepository returning null.");
       return null;
     }
   }

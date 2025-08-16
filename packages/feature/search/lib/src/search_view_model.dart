@@ -105,7 +105,6 @@ class SearchViewModel extends _$SearchViewModel {
       await addFavoriteUseCase(repository);
     }
     _updateWidget();
-    print("_updateWidget called in _toggleFavorite");
   }
 
   Future<void> _updateWidget() async {
@@ -113,11 +112,9 @@ class SearchViewModel extends _$SearchViewModel {
     final result = await getLatestFavoriteUseCase();
     result.when(success: (repo) async {
       if (repo != null) {
-        print("Saving to HomeWidget: name=${repo.name}, description=${repo.description}");
         await HomeWidget.saveWidgetData<String>('name', repo.name);
         await HomeWidget.saveWidgetData<String>('description', repo.description);
       } else {
-        print("Saving to HomeWidget: No repository found");
         await HomeWidget.saveWidgetData<String>('name', 'No repository found');
         await HomeWidget.saveWidgetData<String>('description', '');
       }
@@ -126,7 +123,6 @@ class SearchViewModel extends _$SearchViewModel {
         androidName: 'LatestFavoriteWidgetReceiver',
       );
     }, error: (e) {
-      print("Error getting latest favorite for widget: $e");
     });
   }
 }
