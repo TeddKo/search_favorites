@@ -28,6 +28,17 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   }
 
   @override
+  Future<Result<Repository?>> getLatestFavoriteRepository() async {
+    try {
+      final latestRepository = await _dataSource.getLatestFavoriteRepository();
+      final result = latestRepository?.toDomainModel();
+      return Result.success(result);
+    } catch (e) {
+      return Result.error(Exception(e.toString()));
+    }
+  }
+
+  @override
   Stream<Result<List<int>>> watchFavoritesIds() {
     try {
       return _dataSource.watchFavoritesIds().transform(

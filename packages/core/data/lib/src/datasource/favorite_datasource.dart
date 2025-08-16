@@ -21,6 +21,10 @@ class FavoritesDataSourceImpl implements FavoritesDataSource {
 
   @override
   Future<void> removeFavorite(int id) => _dao.removeFavoriteRepository(id);
+
+  @override
+  Future<FavoriteRepository?> getLatestFavoriteRepository() =>
+      _dao.getLatestFavoriteRepository();
 }
 
 @riverpod

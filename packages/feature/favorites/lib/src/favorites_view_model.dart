@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:core_data/core_data.dart';
 import 'package:core_domain/core_domain.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_common/shared_common.dart';
 import 'package:shared_util/shared_util.dart';
@@ -53,6 +54,7 @@ class FavoritesViewModel extends _$FavoritesViewModel {
           offset: 0,
           hasMore: repos.length == 30,
         );
+        _updateWidget();
       },
       error: (e) => state = state.copyWith(isLoading: false, error: e),
     );
@@ -92,6 +94,36 @@ class FavoritesViewModel extends _$FavoritesViewModel {
         final currentList = state.repositories;
         currentList.removeWhere((item) => item.id == repository.id);
         state = state.copyWith(repositories: [...currentList]);
+        _updateWidget();
+      },
+      error: (e) => state = state.copyWith(isLoading: false, error: e),
+    );
+  }
+
+  Future<void> _updateWidget() async {
+    final getLatestFavoriteUseCase = ref.read(
+      getLatestFavoriteRepositoryUseCaseProvider,
+    );
+    final result = await getLatestFavoriteUseCase();
+    result.when(
+      success: (repo) async {
+        if (repo != null) {
+          await HomeWidget.saveWidgetData<String>('name', repo.name);
+          await HomeWidget.saveWidgetData<String>(
+            'description',
+            repo.description,
+          );
+        } else {
+          await HomeWidget.saveWidgetData<String>(
+            'name',
+            'No repository found',
+          );
+          await HomeWidget.saveWidgetData<String>('description', '');
+        }
+        await HomeWidget.updateWidget(
+          name: 'LatestFavoriteWidgetReceiver',
+          androidName: 'LatestFavoriteWidgetReceiver',
+        );
       },
       error: (e) => state = state.copyWith(isLoading: false, error: e),
     );

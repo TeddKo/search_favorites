@@ -21,6 +21,8 @@ class FavoriteRepositories extends Table {
   IntColumn get stargazersCount => integer()();
 
   IntColumn get forksCount => integer()();
+
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
 // 2. DAO (Data Access Object) 정의
@@ -38,18 +40,31 @@ class FavoriteRepositoryDao extends DatabaseAccessor<FavoriteDatabase>
     return query.map((row) => row.read(favoriteRepositories.repoId)!).watch();
   }
 
-  Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) =>
-      into(favoriteRepositories).insert(entry, mode: InsertMode.insertOrIgnore);
+  Future<void> addFavoriteRepository(FavoriteRepositoriesCompanion entry) {
+    return into(favoriteRepositories).insert(entry,
+        onConflict: DoUpdate((old) {
+          return entry.copyWith(createdAt: Value(DateTime.now()));
+        }));
+  }
 
   Future<void> removeFavoriteRepository(int repoId) => (delete(
     favoriteRepositories,
   )..where((tbl) => tbl.repoId.equals(repoId))).go();
 
-  Stream<bool> watchIsFavorite(int repoId) {
-    return (select(favoriteRepositories)
-          ..where((tbl) => tbl.repoId.equals(repoId)))
-        .watchSingleOrNull()
-        .map((repo) => repo != null);
+  Future<FavoriteRepository?> getLatestFavoriteRepository() async {
+    final query = select(favoriteRepositories)
+      ..orderBy([
+        (tbl) =>
+            OrderingTerm(expression: tbl.createdAt, mode: OrderingMode.desc),
+        (tbl) => OrderingTerm(expression: tbl.id, mode: OrderingMode.desc)
+      ])
+      ..limit(1);
+    final repo = await query.getSingleOrNull();
+    if (repo != null) {
+      return repo;
+    } else {
+      return null;
+    }
   }
 }
 
@@ -58,10 +73,24 @@ class FavoriteDatabase extends _$FavoriteDatabase {
   FavoriteDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          await m.addColumn(favoriteRepositories, favoriteRepositories.createdAt);
+        }
+      },
+    );
+  }
+
 }
 
-// 데이터베이스 연결 설정
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();

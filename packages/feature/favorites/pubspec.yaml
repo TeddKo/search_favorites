@@ -28,6 +28,7 @@ dependencies:
     path: ../../router
   shared_common:
     path: ../../shared/common
+  home_widget: ^0.8.0
 
 dev_dependencies:
   flutter_test:

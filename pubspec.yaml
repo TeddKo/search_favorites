@@ -15,10 +15,15 @@ dependencies:
     path: packages/router
   core_designsystem:
     path: packages/core/designsystem
+  core_data:
+    path: packages/core/data
+  shared_common:
+    path: packages/shared/common
   flutter_dotenv: ^5.2.1
   flutter_riverpod: ^3.0.0-dev.17
   riverpod_annotation: ^3.0.0-dev.17
   cupertino_icons: ^1.0.8
+  home_widget: ^0.8.0
 
 dev_dependencies:
   flutter_test:

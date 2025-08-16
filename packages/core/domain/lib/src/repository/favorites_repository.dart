@@ -6,4 +6,5 @@ abstract class FavoritesRepository {
   Stream<Result<List<int>>> watchFavoritesIds();
   Future<Result<void>> addFavorite(Repository repository);
   Future<Result<void>> removeFavorite(int id);
+  Future<Result<Repository?>> getLatestFavoriteRepository();
 }
