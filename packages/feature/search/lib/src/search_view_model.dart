@@ -4,7 +4,6 @@ import 'package:core_data/core_data.dart';
 import 'package:core_domain/core_domain.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_common/shared_common.dart';
-import 'package:home_widget/home_widget.dart';
 
 import 'di/search_repositories_usecase_provider.dart';
 import 'intent/search_intent.dart';
@@ -18,7 +17,9 @@ class SearchViewModel extends _$SearchViewModel {
   SearchState build() {
     ref.listen(favoritesIdsStreamProvider, (previous, next) {
       if (next.hasValue) {
-        final favoritesIds = (next.value ?? []).map((repoIds) => repoIds).toSet();
+        final favoritesIds = (next.value ?? [])
+            .map((repoIds) => repoIds)
+            .toSet();
 
         final updatedRepositories = state.repositories.map((repo) {
           return repo.copyWith(isFavorite: favoritesIds.contains(repo.id));
@@ -104,25 +105,5 @@ class SearchViewModel extends _$SearchViewModel {
     } else {
       await addFavoriteUseCase(repository);
     }
-    _updateWidget();
-  }
-
-  Future<void> _updateWidget() async {
-    final getLatestFavoriteUseCase = ref.read(getLatestFavoriteRepositoryUseCaseProvider);
-    final result = await getLatestFavoriteUseCase();
-    result.when(success: (repo) async {
-      if (repo != null) {
-        await HomeWidget.saveWidgetData<String>('name', repo.name);
-        await HomeWidget.saveWidgetData<String>('description', repo.description);
-      } else {
-        await HomeWidget.saveWidgetData<String>('name', 'No repository found');
-        await HomeWidget.saveWidgetData<String>('description', '');
-      }
-      await HomeWidget.updateWidget(
-        name: 'LatestFavoriteWidgetReceiver',
-        androidName: 'LatestFavoriteWidgetReceiver',
-      );
-    }, error: (e) {
-    });
   }
 }
