@@ -64,7 +64,7 @@ class LatestFavoriteWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .padding(16.dp)
-                        .background(Color.White)
+                        .background(ImageProvider(R.drawable.background_widget))
                         .clickable(
                             onClick = actionStartActivity<MainActivity>(
                                 context,
