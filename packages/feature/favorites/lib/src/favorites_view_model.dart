@@ -113,12 +113,16 @@ class FavoritesViewModel extends _$FavoritesViewModel {
             'description',
             repo.description,
           );
+          await HomeWidget.saveWidgetData('stargazersCount', repo.stargazersCount);
+          await HomeWidget.saveWidgetData('forksCount', repo.forksCount);
         } else {
           await HomeWidget.saveWidgetData<String>(
             'name',
             'No repository found',
           );
           await HomeWidget.saveWidgetData<String>('description', '');
+          await HomeWidget.saveWidgetData('stargazersCount', '');
+          await HomeWidget.saveWidgetData('forksCount', '');
         }
         await HomeWidget.updateWidget(
           name: 'LatestFavoriteWidgetReceiver',
