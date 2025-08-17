@@ -19,6 +19,7 @@ dependencies:
     path: packages/core/data
   shared_common:
     path: packages/shared/common
+  go_router: ^16.1.0
   flutter_dotenv: ^5.2.1
   flutter_riverpod: ^3.0.0-dev.17
   riverpod_annotation: ^3.0.0-dev.17
