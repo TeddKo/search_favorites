@@ -1,68 +1,116 @@
-# Search Favorites (검색 즐겨찾기)
+**Github Repository를 검색하고 즐겨찾기로 저장하는 Flutter 애플리케이션입니다.**
 
-Github Repository를 검색하고 즐겨찾기로 저장하는 Flutter 애플리케이션입니다.
+-----
 
-## 설계에서 고려한 사항과 선택의 이유
+## 🏛️ 아키텍처 (Architecture)
 
-이 프로젝트는 **클린 아키텍처(Clean Architecture)** 원칙과 **멀티 패키지 아키텍처(Multi-package Architecture)** 를 기반으로 구축되었습니다. 이러한 접근 방식을 선택한 주된 이유는 다음과 같습니다.
+이 프로젝트는 **클린 아키텍처 (Clean Architecture)** 와 **멀티 패키지 아키텍처 (Multi-package Architecture)** 를 기반으로 구축되었습니다. 이를 통해 코드의 재사용성을 높이고, 각 기능의 독립성을 보장하여 유지보수와 확장이 용이한 구조를 지향합니다.
 
-* **관심사 분리 (Separation of Concerns)**: 프로젝트를 여러 독립적인 패키지로 분리하여 데이터, 도메인, UI 등 각 계층의 역할을 명확히 구분했습니다. 이를 통해 코드의 응집도를 높이고 결합도를 낮춰 유지보수성과 확장성을 향상했습니다.
-* **SOLID 원칙 준수**: 각 클래스와 모듈이 단일 책임 원칙(SRP)을 따르도록 설계하고, 의존성 역전 원칙(DIP)을 적용하여 유연하고 테스트하기 쉬운 구조를 만들었습니다.
-* **계층화된 아키텍처**: 계층 간의 의존성을 한 방향으로 흐르게 하여 각 계층이 독립적으로 수정 및 테스트될 수 있도록 했습니다.
+### 🌟 주요 설계 원칙
 
-## Melos를 이용한 멀티 패키지 관리
+* **관심사 분리 (SoC)**: 각 계층(Data, Domain, Presentation)을 명확히 분리하여 독립적으로 개발하고 테스트할 수 있도록 설계했습니다.
+* **SOLID**: 5가지 SOLID 원칙을 준수하여 유연하고 확장 가능한 코드를 작성하고자 했습니다.
+* **단방향 데이터 흐름 (UDF)**: MVI 패턴을 적용하여 데이터의 흐름을 한 방향으로 제어함으로써 상태 변화를 예측 가능하게 만들었습니다.
 
-이 프로젝트는 **Melos**를 사용하여 모노레포(Monorepo) 내의 여러 Dart/Flutter 패키지를 효율적으로 관리합니다. Melos를 통해 다음과 같은 이점을 얻을 수 있습니다.
+### 🏗️ 프로젝트 구조 다이어그램
 
-* **일관된 의존성 관리**: 프로젝트 전체의 의존성을 한 번에 설치하고 업데이트할 수 있습니다.
-* **자동화된 스크립트 실행**: `melos.yaml` 파일에 정의된 스크립트를 통해 여러 패키지에 걸쳐 동시에 명령어를 실행할 수 있습니다 (예: `flutter pub get`, `build_runner` 실행).
-* **향상된 개발 생산성**: 개별 패키지로 이동하여 명령어를 실행할 필요 없이, 루트 디렉토리에서 모든 패키지를 관리할 수 있어 개발 생산성이 향상됩니다.
+```
+search_favorites/
+├── android/            # Android 플랫폼 관련 코드
+├── ios/                # iOS 플랫폼 관련 코드
+├── lib/                # 애플리케이션의 메인 소스 코드
+│   └── main.dart       # 앱의 시작점
+├── linux/              # Linux 플랫폼 관련 코드
+├── macos/              # macOS 플랫폼 관련 코드
+├── packages/           # 모듈화된 패키지
+│   ├── core/
+│   │   ├── data/           # 데이터 소스, 레포지토리 구현
+│   │   ├── database/       # 로컬 데이터베이스 (Drift)
+│   │   ├── designsystem/   # 색상, 테마, 폰트 등 디자인 시스템
+│   │   ├── domain/         # 비즈니스 로직 (유스케이스, 모델)
+│   │   └── network/        # 네트워크 API 호출 (Dio)
+│   ├── feature/
+│   │   ├── favorites/      # 즐겨찾기 화면 및 관련 로직
+│   │   ├── root/           # 하단 네비게이션 등 앱의 루트 구조
+│   │   └── search/         # 검색 화면 및 관련 로직
+│   ├── router/           # 화면 간의 라우팅 관리 (go_router)
+│   └── shared/
+│       ├── common/         # 공통적으로 사용되는 모델 및 유틸리티
+│       ├── ui/             # 공통 UI 위젯 (예: RepositoryCard)
+│       └── util/           # 로거 등 공통 유틸리티
+├── test/               # 위젯 테스트 코드
+├── web/                # Web 플랫폼 관련 코드
+├── windows/            # Windows 플랫폼 관련 코드
+├── melos.yaml          # Melos를 이용한 멀티 패키지 관리 설정
+└── pubspec.yaml        # 프로젝트 의존성 관리
+```
 
-## 프로젝트 구조
+-----
 
-이 프로젝트는 다음과 같은 패키지 구조로 구성되어 있습니다.
+## 📦 패키지 관리 (Package Management)
 
-* `packages/core`: 애플리케이션의 핵심 기능을 담당하며, 다음과 같은 하위 패키지로 나뉩니다.
-    * `data`: 데이터 소스 및 레포지토리를 포함합니다.
-    * `database`: 로컬 데이터베이스 관련 로직을 처리합니다.
-    * `designsystem`: 앱의 전체적인 디자인 시스템(색상, 타이포그래피, 테마 등)을 정의합니다.
-    * `domain`: 비즈니스 로직과 유스케이스를 포함합니다.
-    * `network`: 네트워크 통신을 처리합니다.
-* `packages/feature`: 애플리케이션의 각 기능을 독립적인 패키지로 분리했습니다.
-    * `favorites`: 즐겨찾기 기능입니다.
-    * `root`: 앱의 메인 화면 및 하단 내비게이션을 관리합니다.
-    * `search`: 저장소 검색 기능입니다.
-* `packages/router`: 앱의 내비게이션 및 라우팅을 관리합니다.
-* `packages/shared`: 여러 패키지에서 공통으로 사용되는 유틸리티 및 위젯을 포함합니다.
+**Melos**를 사용하여 모노레포(Monorepo) 내의 여러 패키지를 효율적으로 관리합니다. `melos.yaml` 파일에 정의된 스크립트를 통해 모든 패키지에 대한 작업을 일괄적으로 수행할 수 있어 개발 생산성을 높여줍니다.
 
-## 사용된 라이브러리
+-----
 
-* **State Management**:
-    * `flutter_riverpod` & `riverpod_generator`: 상태 관리 및 의존성 주입을 위해 사용했습니다.
-* **Routing**:
-    * `go_router`: 선언적 라우팅을 구현하기 위해 사용했습니다.
-* **Network**:
-    * `dio`: HTTP 통신을 위해 사용했습니다.
-* **Local Storage**:
-    * `drift`: 로컬 데이터베이스를 위해 사용했습니다.
-* **Code Generation**:
-    * `freezed`: 불변(Immutable) 객체 생성을 위해 사용했습니다.
-    * `json_serializable`: JSON 직렬화 코드를 생성하기 위해 사용했습니다.
-    * `build_runner`: 코드 생성을 자동화하기 위해 사용했습니다.
-* **Others**:
-    * `flutter_dotenv`: API 키 등 민감한 정보를 관리하기 위해 사용했습니다.
-    * `logger`: 디버깅 및 로깅을 위해 사용했습니다.
-    * `home_widget`: 홈 화면 위젯을 구현하기 위해 사용했습니다.
+## ✨ 주요 기능 (Features)
 
-## 디자인 패턴
+* **저장소 검색**: Github API를 연동하여 실시간으로 저장소를 검색합니다.
+* **즐겨찾기**: 검색한 저장소를 로컬 데이터베이스에 저장하고 관리합니다.
+* **홈 위젯**: 가장 최근에 추가된 즐겨찾기 항목을 홈 화면 위젯으로 표시합니다.
 
-* **MVI (Model-View-Intent)**: 사용자 입력을 Intent로 처리하고, 이를 통해 단방향 데이터 흐름을 구축하여 상태 변화를 예측 가능하게 관리합니다.
-* **Repository Pattern**: 데이터 소스를 추상화하여 데이터 접근 로직을 캡슐화하고, 데이터 계층과 도메인 계층을 분리했습니다.
-* **Provider Pattern**: `Riverpod`를 사용하여 의존성을 주입하고 상태를 관리합니다.
+-----
 
-## AI 보조도구 사용 프롬프트
--   **Androdid 멀티모듈 아키텍처에 대응하는 Fluuter의 아키텍처가 뭔지 알려줘**
--   **Kotlin의 data class와 sealed class에 대응하는 Flutter 라이브러리를 알려줘**
--   **Android Room Database에 대응하는 Flutter 라이브러리를 알려줘**
--   **상태관리 라이브러리가 어떤게 있는지 알려주고 가장 많이 사용되는 라이브러리는 무엇이며 사용법에대해 자세하게 설명해줘**
--   **Android에서는 local.properties에 토큰정보라던지 민감한 데이터를 입력하는데 Flutter에서 그에 대응하는 방법이 뭔지 알려줘**
+## 🛠️ 기술 스택 및 라이브러리 (Tech Stack & Libraries)
+
+| Category           | Library/Tool                                                                                                                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **State Management** | `flutter_riverpod`, `riverpod_generator`                                                              |
+| **Routing** | `go_router`                                                                                            |
+| **Network** | `dio`                                                                                                  |
+| **Local Storage** | `drift`                                                                                                |
+| **Code Generation**| `freezed`, `json_serializable`, `build_runner`                                                         |
+| **Others** | `flutter_dotenv`, `logger`, `home_widget` |
+
+-----
+
+## 🚀 시작하기 (Getting Started)
+
+### 사전 요구 사항
+
+* Flutter 3.x 이상
+* Melos
+
+### 설치
+
+1.  **저장소 복제**:
+
+    ```bash
+    git clone https://github.com/teddko/search_favorites.git
+    cd search_favorites
+    ```
+
+2.  **Melos 활성화**:
+
+    ```bash
+    dart pub global activate melos
+    ```
+
+3.  **의존성 설치**:
+
+    ```bash
+    melos bootstrap
+    ```
+
+4.  **.env 파일 생성**:
+    루트 디렉토리에 `.env` 파일을 생성하고 Github API 토큰을 추가합니다.
+
+    ```
+    GITHUB_API_TOKEN=your_github_api_token
+    ```
+
+### 실행
+
+```bash
+flutter run
+```
