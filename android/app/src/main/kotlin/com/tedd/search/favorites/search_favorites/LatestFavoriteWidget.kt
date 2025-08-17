@@ -5,10 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.lazy.LazyColumn
 import androidx.glance.appwidget.provideContent
@@ -28,13 +30,16 @@ import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
+import com.tedd.search.favorites.search_favorites.MainActivity
 import com.tedd.search.favorites.search_favorites.R
+import es.antonborri.home_widget.actionStartActivity
 
 class LatestFavoriteWidget : GlanceAppWidget() {
 
     override val stateDefinition: GlanceStateDefinition<*>?
         get() = HomeWidgetGlanceStateDefinition()
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
             FavoriteWidget(context = context, currentState = currentState())
@@ -51,6 +56,8 @@ class LatestFavoriteWidget : GlanceAppWidget() {
         val stargazersCount = prefs.getInt("stargazersCount", 0);
         val forksCount = prefs.getInt("forksCount", 0);
 
+        val favoritesUri = "searchfavorites://app/favorites".toUri()
+
         LazyColumn {
             item {
                 Column(
@@ -58,6 +65,12 @@ class LatestFavoriteWidget : GlanceAppWidget() {
                         .fillMaxSize()
                         .padding(16.dp)
                         .background(Color.White)
+                        .clickable(
+                            onClick = actionStartActivity<MainActivity>(
+                                context,
+                                favoritesUri
+                            )
+                        )
                 ) {
                     Text(
                         text = name,
